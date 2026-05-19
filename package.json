@@ -1,7 +1,8 @@
 {
-  "name": "akash-portfolio",
+  "name": "supratim-portfolio",
   "private": true,
   "version": "0.0.0",
+  "author": "Supratim Nath",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

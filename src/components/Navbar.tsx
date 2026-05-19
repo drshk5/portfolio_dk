@@ -22,22 +22,37 @@ const Navbar = () => {
 
     smoother.scrollTop(0);
     smoother.paused(true);
-
-    let links = document.querySelectorAll(".header ul a");
+    const links = Array.from(
+      document.querySelectorAll(".header ul a")
+    ) as HTMLAnchorElement[];
+    const handlers: ((e: Event) => void)[] = [];
     links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
+      const handler = (e: Event) => {
         if (window.innerWidth > 1024) {
           e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
+          const target = e.currentTarget as HTMLAnchorElement;
+          const section = target.getAttribute("data-href");
           smoother.scrollTo(section, true, "top top");
         }
-      });
+      };
+      handlers.push(handler);
+      elem.addEventListener("click", handler);
     });
-    window.addEventListener("resize", () => {
+
+    const resizeHandler = () => {
       ScrollSmoother.refresh(true);
-    });
+    };
+    window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      links.forEach((elem, i) => elem.removeEventListener("click", handlers[i]));
+      window.removeEventListener("resize", resizeHandler);
+      try {
+        if (smoother) smoother.kill();
+      } catch (e) {
+        /* ignore */
+      }
+    };
   }, []);
   return (
     <>
