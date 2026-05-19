@@ -10,27 +10,36 @@ const Loading = ({ percent }: { percent: number }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  if (percent >= 100) {
-    setTimeout(() => {
-      setLoaded(true);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
+  useEffect(() => {
+    if (percent >= 100 && !loaded) {
+      const t1 = setTimeout(() => setLoaded(true), 600);
+      const t2 = setTimeout(() => setIsLoaded(true), 1600);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+    return;
+  }, [percent, loaded]);
 
   useEffect(() => {
+    let mounted = true;
     import("./utils/initialFX").then((module) => {
+      if (!mounted) return;
       if (isLoaded) {
         setClicked(true);
-        setTimeout(() => {
+        const t = setTimeout(() => {
           if (module.initialFX) {
             module.initialFX();
           }
           setIsLoading(false);
         }, 900);
+        return () => clearTimeout(t);
       }
     });
+    return () => {
+      mounted = false;
+    };
   }, [isLoaded]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
@@ -46,7 +55,7 @@ const Loading = ({ percent }: { percent: number }) => {
     <>
       <div className="loading-header">
         <a href="/#" className="loader-title" data-cursor="disable">
-          AM
+          SN
         </a>
         <div className={`loaderGame ${clicked && "loader-out"}`}>
           <div className="loaderGame-container">

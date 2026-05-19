@@ -135,19 +135,23 @@ const TechStack = () => {
         .getBoundingClientRect().top;
       setIsActive(scrollY > threshold);
     };
-    document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
+    const links = Array.from(document.querySelectorAll(".header a")) as HTMLAnchorElement[];
+    const handlers: Array<() => void> = [];
+    links.forEach((element) => {
+      const handler = () => {
         const interval = setInterval(() => {
           handleScroll();
         }, 10);
         setTimeout(() => {
           clearInterval(interval);
         }, 1000);
-      });
+      };
+      handlers.push(handler);
+      element.addEventListener("click", handler);
     });
     window.addEventListener("scroll", handleScroll);
     return () => {
+      links.forEach((el, i) => el.removeEventListener("click", handlers[i]));
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);

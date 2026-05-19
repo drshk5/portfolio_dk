@@ -12,10 +12,12 @@ const SocialIcons = () => {
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
 
-    social.querySelectorAll("span").forEach((item) => {
-      const elem = item as HTMLElement;
-      const link = elem.querySelector("a") as HTMLElement;
+    const elements = Array.from(social.querySelectorAll("span")) as HTMLElement[];
+    const rafIds: number[] = [];
+    const handlers: Array<(e: MouseEvent) => void> = [];
 
+    elements.forEach((elem) => {
+      const link = elem.querySelector("a") as HTMLElement;
       const rect = elem.getBoundingClientRect();
       let mouseX = rect.width / 2;
       let mouseY = rect.height / 2;
@@ -29,7 +31,8 @@ const SocialIcons = () => {
         link.style.setProperty("--siLeft", `${currentX}px`);
         link.style.setProperty("--siTop", `${currentY}px`);
 
-        requestAnimationFrame(updatePosition);
+        const id = requestAnimationFrame(updatePosition);
+        rafIds.push(id);
       };
 
       const onMouseMove = (e: MouseEvent) => {
@@ -45,14 +48,16 @@ const SocialIcons = () => {
         }
       };
 
+      handlers.push(onMouseMove);
       document.addEventListener("mousemove", onMouseMove);
 
       updatePosition();
-
-      return () => {
-        elem.removeEventListener("mousemove", onMouseMove);
-      };
     });
+
+    return () => {
+      handlers.forEach((h) => document.removeEventListener("mousemove", h));
+      rafIds.forEach((id) => cancelAnimationFrame(id));
+    };
   }, []);
 
   return (

@@ -57,10 +57,16 @@ const Scene = () => {
 
       const resizeForRenderer = () => handleResize(renderer, camera, canvasDiv, loadedCharacter!);
 
+      let hoverCleanup: (() => void) | null = null;
+      let activeTouchMoveHandler: ((e: TouchEvent) => void) | null = null;
+
       loadCharacter().then((gltf) => {
         if (gltf) {
           const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
+          if (hoverDivRef.current) {
+            const cleanup = animations.hover(gltf, hoverDivRef.current);
+            if (cleanup) hoverCleanup = cleanup;
+          }
           mixer = animations.mixer;
           loadedCharacter = gltf.scene;
           setChar(loadedCharacter);
@@ -86,10 +92,12 @@ const Scene = () => {
       let debounce: number | undefined;
       const onTouchStart = (event: TouchEvent) => {
         const element = event.target as HTMLElement;
-        debounce = setTimeout(() => {
-          element?.addEventListener("touchmove", (e: TouchEvent) =>
-            handleTouchMove(e, (x, y) => (mouse = { x, y }))
-          );
+        debounce = window.setTimeout(() => {
+          if (!element) return;
+          const touchMoveHandler = (e: TouchEvent) =>
+            handleTouchMove(e, (x, y) => (mouse = { x, y }));
+          activeTouchMoveHandler = touchMoveHandler;
+          element.addEventListener("touchmove", touchMoveHandler as EventListener);
         }, 200);
       };
 
@@ -136,9 +144,13 @@ const Scene = () => {
         }
         if (landingDiv) {
           document.removeEventListener("mousemove", onMouseMove);
-          landingDiv.removeEventListener("touchstart", onTouchStart);
-          landingDiv.removeEventListener("touchend", onTouchEnd);
+            landingDiv.removeEventListener("touchstart", onTouchStart);
+            landingDiv.removeEventListener("touchend", onTouchEnd);
+            if (activeTouchMoveHandler) {
+              landingDiv.removeEventListener("touchmove", activeTouchMoveHandler as EventListener);
+            }
         }
+          if (hoverCleanup) hoverCleanup();
       };
     }
   }, []);
