@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
@@ -49,7 +50,7 @@ const Navbar = () => {
       window.removeEventListener("resize", resizeHandler);
       try {
         if (smoother) smoother.kill();
-      } catch (e) {
+      } catch {
         /* ignore */
       }
     };

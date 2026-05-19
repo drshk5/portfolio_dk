@@ -8,9 +8,10 @@ const WhatIDo = () => {
     containerRef.current[index] = el;
   };
   useEffect(() => {
+    const currentContainers = containerRef.current;
     if (ScrollTrigger.isTouch) {
       const handlers: Array<() => void> = [];
-      containerRef.current.forEach((container) => {
+      currentContainers.forEach((container) => {
         if (container) {
           container.classList.remove("what-noTouch");
           const handler = () => handleClick(container);
@@ -19,7 +20,7 @@ const WhatIDo = () => {
         }
       });
       return () => {
-        containerRef.current.forEach((container, i) => {
+        currentContainers.forEach((container, i) => {
           if (container) {
             container.removeEventListener("click", handlers[i]);
           }

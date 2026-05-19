@@ -21,9 +21,10 @@ const Scene = () => {
 
   const [/*character*/, setChar] = useState<THREE.Object3D | null>(null);
   useEffect(() => {
-    if (canvasDiv.current) {
-      let rect = canvasDiv.current.getBoundingClientRect();
-      let container = { width: rect.width, height: rect.height };
+    const canvasElement = canvasDiv.current;
+    if (canvasElement) {
+      const rect = canvasElement.getBoundingClientRect();
+      const container = { width: rect.width, height: rect.height };
       const aspect = container.width / container.height;
       const scene = sceneRef.current;
 
@@ -35,7 +36,7 @@ const Scene = () => {
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
-      canvasDiv.current.appendChild(renderer.domElement);
+      canvasElement.appendChild(renderer.domElement);
 
       const camera = new THREE.PerspectiveCamera(14.5, aspect, 0.1, 1000);
       camera.position.z = 10;
@@ -44,13 +45,13 @@ const Scene = () => {
       camera.updateProjectionMatrix();
 
       let headBone: THREE.Object3D | null = null;
-      let screenLight: any | null = null;
+      let screenLight: THREE.Mesh | null = null;
       let mixer: THREE.AnimationMixer;
 
       const clock = new THREE.Clock();
 
       const light = setLighting(scene);
-      let progress = setProgress((value) => setLoading(value));
+      const progress = setProgress((value) => setLoading(value));
       const { loadCharacter } = setCharacter(renderer, scene, camera);
 
       let loadedCharacter: THREE.Object3D | null = null;
@@ -72,7 +73,7 @@ const Scene = () => {
           setChar(loadedCharacter);
           scene.add(loadedCharacter);
           headBone = loadedCharacter.getObjectByName("spine006") || null;
-          screenLight = loadedCharacter.getObjectByName("screenlight") || null;
+          screenLight = (loadedCharacter.getObjectByName("screenlight") as THREE.Mesh) || null;
           progress.loaded().then(() => {
             setTimeout(() => {
               light.turnOnLights();
@@ -139,8 +140,8 @@ const Scene = () => {
         scene.clear();
         renderer.dispose();
         window.removeEventListener("resize", resizeForRenderer);
-        if (canvasDiv.current) {
-          canvasDiv.current.removeChild(renderer.domElement);
+        if (canvasElement) {
+          canvasElement.removeChild(renderer.domElement);
         }
         if (landingDiv) {
           document.removeEventListener("mousemove", onMouseMove);
@@ -153,7 +154,7 @@ const Scene = () => {
           if (hoverCleanup) hoverCleanup();
       };
     }
-  }, []);
+  }, [setLoading]);
 
   return (
     <>
