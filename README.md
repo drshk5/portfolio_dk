@@ -2,7 +2,7 @@
 
 This repository contains the source code for the personal 3D portfolio of **Supratim Nath**, built with React, TypeScript, Three.js, React Three Fiber, and GSAP. It includes animated page sections, a character scene, custom cursor interactions, and smooth transitions designed for a modern portfolio experience.
 
-Live site: https://portfolio-website-swart-mu-40.vercel.app/
+Live site: https://supratim-portfolio-rosy.vercel.app/
 
 ## Table of Contents
 
