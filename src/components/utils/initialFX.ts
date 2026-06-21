@@ -35,9 +35,9 @@ export function initialFX() {
 
   const TextProps = { type: "chars,lines", linesClass: "split-h2" };
 
-  const landingText2 = new SplitText(".landing-h2-info", TextProps);
+  const landingText4 = new SplitText(".landing-h2-1", TextProps);
   gsap.fromTo(
-    landingText2.chars,
+    landingText4.chars,
     { opacity: 0, y: 80, filter: "blur(5px)" },
     {
       opacity: 1,
@@ -72,11 +72,8 @@ export function initialFX() {
     }
   );
 
-  const landingText3 = new SplitText(".landing-h2-info-1", TextProps);
-  const landingText4 = new SplitText(".landing-h2-1", TextProps);
   const landingText5 = new SplitText(".landing-h2-2", TextProps);
 
-  LoopText(landingText2, landingText3);
   LoopText(landingText4, landingText5);
 }
 

@@ -53,6 +53,15 @@ const Scene = () => {
       const light = setLighting(scene);
       const progress = setProgress((value) => setLoading(value));
       const { loadCharacter } = setCharacter(renderer, scene, camera);
+      let characterLoadFinished = false;
+      const loadingFallback = window.setTimeout(() => {
+        if (!characterLoadFinished) {
+          console.warn(
+            "3D character is taking longer than expected; showing portfolio content."
+          );
+          progress.clear();
+        }
+      }, 12000);
 
       let loadedCharacter: THREE.Object3D | null = null;
 
@@ -62,6 +71,8 @@ const Scene = () => {
       let activeTouchMoveHandler: ((e: TouchEvent) => void) | null = null;
 
       loadCharacter().then((gltf) => {
+        characterLoadFinished = true;
+        clearTimeout(loadingFallback);
         if (gltf) {
           const animations = setAnimations(gltf);
           if (hoverDivRef.current) {
@@ -82,6 +93,11 @@ const Scene = () => {
           });
           window.addEventListener("resize", resizeForRenderer);
         }
+      }).catch((error) => {
+        characterLoadFinished = true;
+        clearTimeout(loadingFallback);
+        console.error("Unable to load 3D character:", error);
+        progress.clear();
       });
 
       let mouse = { x: 0, y: 0 },
@@ -137,6 +153,8 @@ const Scene = () => {
       animate();
       return () => {
         clearTimeout(debounce);
+        clearTimeout(loadingFallback);
+        progress.cancel();
         scene.clear();
         renderer.dispose();
         window.removeEventListener("resize", resizeForRenderer);

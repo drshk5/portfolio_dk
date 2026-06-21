@@ -13,12 +13,12 @@ const projects = [
   {
     title: "Campus Lost & Found Platform",
     category: "Web Platform",
-    tools: "Node.js, MySQL, JavaScript, HTML, CSS",
+    tools: "Node.js, Express.js, MongoDB, JavaScript, HTML, CSS",
     image: "/images/broki.png",
     link: "https://github.com/supratim-nath/Campus-Lost_and_found",
   },
   {
-    title: "DPI Engine",
+    title: "Deep Packet Inspection (DPI) Engine",
     category: "Network Traffic Analysis",
     tools: "C++, Networking, Multithreading",
     image: "/images/orrdr.png",

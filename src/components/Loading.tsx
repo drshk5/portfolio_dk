@@ -13,12 +13,8 @@ const Loading = ({ percent }: { percent: number }) => {
 
   useEffect(() => {
     if (percent >= 100 && !loaded) {
-      const t1 = setTimeout(() => setLoaded(true), 600);
-      const t2 = setTimeout(() => setIsLoaded(true), 1600);
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
+      setLoaded(true);
+      setIsLoaded(true);
     }
     return;
   }, [percent, loaded]);
@@ -29,13 +25,16 @@ const Loading = ({ percent }: { percent: number }) => {
       if (!mounted) return;
       if (isLoaded) {
         setClicked(true);
-        const t = setTimeout(() => {
+        try {
           if (module.initialFX) {
             module.initialFX();
           }
-          setIsLoading(false);
-        }, 900);
-        return () => clearTimeout(t);
+        } catch (error) {
+          console.error("Initial page animation failed:", error);
+          document.body.style.overflowY = "auto";
+          document.querySelector("main")?.classList.add("main-active");
+        }
+        setIsLoading(false);
       }
     });
     return () => {
@@ -127,19 +126,17 @@ export const setProgress = (setLoading: (value: number) => void) => {
     setLoading(100);
   }
 
+  function cancel() {
+    clearInterval(interval);
+  }
+
   function loaded() {
     return new Promise<number>((resolve) => {
       clearInterval(interval);
-      interval = setInterval(() => {
-        if (percent < 100) {
-          percent++;
-          setLoading(percent);
-        } else {
-          resolve(percent);
-          clearInterval(interval);
-        }
-      }, 2);
+      percent = 100;
+      setLoading(percent);
+      resolve(percent);
     });
   }
-  return { loaded, percent, clear };
+  return { loaded, percent, clear, cancel };
 };

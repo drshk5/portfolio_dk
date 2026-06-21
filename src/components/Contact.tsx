@@ -21,7 +21,7 @@ const Contact = () => {
             </p>
             <h4>Education</h4>
             <p>
-              B.Tech in Computer Science and Engineering, KIIT University | CGPA: 7.75
+              B.Tech in Computer Science and Engineering, KIIT University | CGPA: 7.9
             </p>
             <p>
               AISSCE, Durgapur Public School | Percentage: 85%
@@ -60,7 +60,7 @@ const Contact = () => {
               Instagram <MdArrowOutward />
             </a>
             <a
-              href="mailto:ricknath96@gmail.com"
+              href="mailto:supratim0610@gmail.com"
               target="_blank"
               rel="noreferrer"
               data-cursor="disable"

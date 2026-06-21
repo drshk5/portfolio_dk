@@ -8,6 +8,9 @@ import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
 import HoverLinks from "./HoverLinks";
 
+const RESUME_URL =
+  "https://drive.google.com/file/d/1zi0rkau3Mln6Mp403kS0huQyQhYvc97R/view?usp=sharing";
+
 const SocialIcons = () => {
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
@@ -67,7 +70,9 @@ const SocialIcons = () => {
           <a
             href="https://github.com/supratim-nath"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="Open GitHub profile"
+            title="GitHub"
           >
             <FaGithub />
           </a>
@@ -76,7 +81,9 @@ const SocialIcons = () => {
           <a
             href="https://www.linkedin.com/in/supratim-nath10"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="Open LinkedIn profile"
+            title="LinkedIn"
           >
             <FaLinkedinIn />
           </a>
@@ -85,7 +92,9 @@ const SocialIcons = () => {
           <a
             href="https://www.instagram.com/__.supratim._._?igsh=ZWNrZDF2ZXpuMTFu"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="Open Instagram profile"
+            title="Instagram"
           >
             <FaInstagram />
           </a>
@@ -93,12 +102,15 @@ const SocialIcons = () => {
       </div>
       <a
         className="resume-button"
-        href="https://drive.google.com/file/d/1r1Q0Oxeb6A0Eg4rdE1c5766Dno3FEV8i/view?usp=drive_link"
+        href={RESUME_URL}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
+        aria-label="Open Supratim Nath resume in Google Drive"
+        title="Open resume"
+        data-cursor="disable"
       >
         <HoverLinks text="RESUME" />
-        <span>
+        <span aria-hidden="true">
           <TbNotes />
         </span>
       </a>

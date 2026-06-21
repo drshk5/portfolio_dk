@@ -41,7 +41,14 @@
   display: flex;
   font-size: 23px;
   will-change: left, top;
-  transition: transform 0.3s ease-out;
+  transition:
+    color 0.25s ease,
+    transform 0.3s ease-out;
+}
+.social-icons a:focus-visible,
+.resume-button:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 6px;
 }
 .resume-button {
   position: absolute;
@@ -58,14 +65,17 @@
   font-weight: 600;
   color: #5e5e5e;
   cursor: pointer;
-  transition: 0.5s;
+  touch-action: manipulation;
+  transition:
+    color 0.25s ease,
+    transform 0.35s ease;
   transform-origin: left bottom;
   transform: translateX(100%) rotateZ(-90deg);
 }
 .resume-button:hover {
   color: #fff;
 }
-div.resume-button span {
+.resume-button span {
   color: #fff;
   font-size: 17px;
   margin-top: -1px;
@@ -96,7 +106,7 @@ div.resume-button span {
     font-size: 20px;
     line-height: 20px;
   }
-  div.resume-button span {
+  .resume-button span {
     font-size: 23px;
     margin-top: -1.5px;
   }

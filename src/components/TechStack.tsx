@@ -135,7 +135,7 @@ const TechStack = () => {
         .getBoundingClientRect().top;
       setIsActive(scrollY > threshold);
     };
-    const links = Array.from(document.querySelectorAll(".header a")) as HTMLAnchorElement[];
+    const links = Array.from(document.querySelectorAll(".header ul a")) as HTMLAnchorElement[];
     const handlers: Array<() => void> = [];
     links.forEach((element) => {
       const handler = () => {
