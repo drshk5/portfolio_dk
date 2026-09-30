@@ -12,25 +12,66 @@
 .about-me {
   padding: 50px 0px;
   padding-bottom: 0;
-  width: 500px;
+  width: 620px;
   max-width: calc(100% - 15px);
 }
 .about-me h3 {
-  font-size: 25px;
+  font-size: 20px;
   text-transform: uppercase;
-  letter-spacing: 7px;
-  font-weight: 400;
+  letter-spacing: 6px;
+  font-weight: 500;
   color: var(--accentColor);
+  margin-bottom: 16px;
 }
 
 .about-me p, .about-me p div {
-  font-size: 33px;
-  font-weight: 600;
-  line-height: 36px;
-  letter-spacing: 1px;
-  color: #ffffff !important;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0.3px;
+  color: #e2e8f0 !important;
   opacity: 1 !important;
   visibility: visible !important;
+}
+
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.about-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.about-stat-card:hover {
+  border-color: rgba(94, 234, 212, 0.4);
+  background: rgba(94, 234, 212, 0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(94, 234, 212, 0.1);
+}
+
+.about-stat-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: #5eead4;
+  letter-spacing: 0.5px;
+}
+
+.about-stat-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #94a3b8;
 }
 
 @media only screen and (min-width: 600px) {
@@ -40,7 +81,7 @@
 }
 @media only screen and (min-width: 768px) {
   .about-me {
-    width: 500px;
+    width: 600px;
     max-width: calc(100% - 70px);
     transform: translateY(0%);
   }
@@ -59,16 +100,16 @@
   }
   .about-me {
     padding: 0px;
-    width: 50%;
+    width: 48%;
   }
   .about-me p {
-    font-size: 1.9vw;
-    line-height: 2.3vw;
+    font-size: 1.25vw;
+    line-height: 1.9vw;
   }
 }
 @media only screen and (min-width: 1950px) {
   .about-me p {
-    font-size: 2.5rem;
-    line-height: 2.7rem;
+    font-size: 1.4rem;
+    line-height: 2.1rem;
   }
 }

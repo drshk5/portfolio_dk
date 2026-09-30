@@ -4,8 +4,13 @@ import { smoother } from "../Navbar";
 
 export function initialFX() {
   document.body.style.overflowY = "auto";
-  smoother.paused(false);
-  document.getElementsByTagName("main")[0].classList.add("main-active");
+  try {
+    if (smoother) smoother.paused(false);
+  } catch {
+    /* ignore if smoother not mounted */
+  }
+  const main = document.getElementsByTagName("main")[0];
+  if (main) main.classList.add("main-active");
   gsap.to("body", {
     backgroundColor: "#0a0e17",
     duration: 0.5,
@@ -62,12 +67,25 @@ export function initialFX() {
     }
   );
   gsap.fromTo(
-    [".header", ".icons-section", ".nav-fade"],
-    { opacity: 0 },
+    [".header", ".icons-section", ".nav-fade", ".landing-status-badge", ".landing-info-pill"],
+    { opacity: 0, y: 15 },
     {
       opacity: 1,
+      y: 0,
       duration: 1.2,
-      ease: "power1.inOut",
+      ease: "power2.out",
+      delay: 0.2,
+    }
+  );
+
+  gsap.fromTo(
+    ".landing-bg-text",
+    { opacity: 0, scale: 0.94 },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 1.5,
+      ease: "power3.out",
       delay: 0.1,
     }
   );

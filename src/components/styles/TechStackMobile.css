@@ -1,0 +1,89 @@
+.mobile-techstack-section {
+  width: var(--cWidth);
+  max-width: 1200px;
+  margin: 60px auto;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.mobile-techstack-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.mobile-techstack-header h2 {
+  font-size: 42px;
+  font-weight: 500;
+  margin: 0;
+  color: #fff;
+}
+
+.mobile-techstack-header h2 span {
+  color: var(--accentColor);
+}
+
+.mobile-techstack-header p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-top: 8px;
+  font-weight: 300;
+}
+
+.mobile-techstack-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media only screen and (min-width: 600px) {
+  .mobile-techstack-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.mobile-techstack-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 22px 20px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.mobile-techstack-card:hover {
+  border-color: rgba(94, 234, 212, 0.35);
+  background: rgba(94, 234, 212, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(94, 234, 212, 0.08);
+  transform: translateY(-2px);
+}
+
+.mobile-techstack-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #5eead4;
+  margin: 0 0 14px 0;
+  letter-spacing: 0.5px;
+}
+
+.mobile-techstack-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mobile-techstack-chip {
+  font-size: 12px;
+  font-weight: 400;
+  padding: 5px 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: #cbd5e1;
+  transition: all 0.25s ease;
+}
+
+.mobile-techstack-card:hover .mobile-techstack-chip {
+  border-color: rgba(94, 234, 212, 0.2);
+  color: #fff;
+}

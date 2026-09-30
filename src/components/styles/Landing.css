@@ -1,31 +1,85 @@
+/* ── Landing Section ── */
 .landing-section {
   width: 100%;
   max-width: var(--cMaxWidth);
   margin: auto;
   position: relative;
   height: var(--vh);
+  overflow: hidden;
 }
 
+/* ── Ambient Architectural Background Typography Watermark ── */
+.landing-bg-text {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1; /* Sits behind 3D character and foreground text */
+  text-align: center;
+  overflow: hidden;
+  line-height: 0.88;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.bg-text-line {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bg-text-top {
+  font-size: clamp(60px, 14vw, 210px);
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.015) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 50px rgba(94, 234, 212, 0.06));
+}
+
+.bg-text-bottom {
+  font-size: clamp(55px, 13vw, 190px);
+  letter-spacing: 0.03em;
+  -webkit-text-stroke: 1.5px rgba(94, 234, 212, 0.18);
+  color: transparent;
+  opacity: 0.9;
+}
+
+/* ── Landing Foreground Container ── */
 .landing-container {
   width: var(--cWidth);
   margin: auto;
   height: 100%;
   position: relative;
   max-width: var(--cMaxWidth);
+  z-index: 15; /* Sits above 3D model canvas */
+  pointer-events: none; /* Allows hover through to 3D character */
 }
 
+/* Glowing Ambient Orbs */
 .landing-circle1 {
   top: 0%;
   left: 0%;
-  z-index: 15;
+  z-index: 1;
   position: fixed;
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   background-color: #22d3ee;
   box-shadow: inset -50px 40px 50px rgba(0, 180, 180, 0.6);
-  filter: blur(60px);
+  filter: blur(80px);
   border-radius: 50%;
-  animation: loadingCircle 5s linear infinite;
+  opacity: 0.25;
+  animation: loadingCircle 8s linear infinite;
+  pointer-events: none;
 }
 
 .nav-fade {
@@ -33,9 +87,7 @@
   top: 0;
   width: 100%;
   height: 130px;
-  background-image: linear-gradient(0deg,
-      transparent,
-      var(--backgroundColor) 70%);
+  background-image: linear-gradient(0deg, transparent, var(--backgroundColor) 75%);
   pointer-events: none;
   z-index: 12;
   opacity: 0;
@@ -46,7 +98,6 @@
   0% {
     transform: translate(-95%, -75%) rotateZ(0deg);
   }
-
   100% {
     transform: translate(-95%, -75%) rotateZ(360deg);
   }
@@ -56,16 +107,18 @@
   top: 50%;
   right: 0%;
   transform: translate(calc(100% - 2px), -50%);
-  z-index: 9;
+  z-index: 1;
   position: fixed;
   display: none;
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   background-color: #22d3ee;
   box-shadow: inset -50px 40px 50px rgba(0, 180, 180, 0.6);
-  filter: blur(50px);
+  filter: blur(80px);
   border-radius: 50%;
-  animation: loadingCircle2 5s linear infinite;
+  opacity: 0.2;
+  animation: loadingCircle2 8s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes loadingCircle2 {
@@ -74,39 +127,24 @@
   }
 }
 
-.landing-video,
-.landing-image {
-  position: absolute;
-  bottom: 0;
-  height: 95%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.landing-image img {
-  height: 100%;
-  z-index: 2;
-  position: relative;
-}
-
+/* ── Character Model Canvas ── */
 .character-rim {
   position: absolute;
   width: 400px;
   height: 400px;
   z-index: 1;
   background-color: #22d3ee;
-  transform: translate(-50%, 36%) scaleX(1.4);
   box-shadow: inset 66px 35px 85px 0px rgba(0, 180, 180, 0.65);
-  filter: blur(50px);
+  filter: blur(60px);
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, 100%) scale(1.4);
   opacity: 0;
+  pointer-events: none;
 }
 
 .character-model {
-  height: 80%;
   height: 80vh;
   position: absolute;
   max-width: 1920px;
@@ -114,41 +152,9 @@
   transform: translateX(-50%);
   width: 100%;
   left: 50%;
-  z-index: 0;
+  z-index: 2; /* Sits cleanly between bg text and foreground UI */
   bottom: 50px;
-  pointer-events: inherit;
-}
-
-.character-model::after {
-  content: "";
-  width: 100vw;
-  height: 250px;
-  background-image: linear-gradient(to bottom,
-      transparent,
-      var(--backgroundColor) 70%);
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9;
-  position: absolute;
-}
-
-.character-model::before {
-  content: "";
-  width: 100vw;
-  height: 700px;
-  background-color: var(--backgroundColor);
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9;
-  position: absolute;
-}
-
-.character-loaded .character-rim {
-  animation: backlight 3s forwards;
-  animation-delay: 0.3s;
-  opacity: 0;
+  pointer-events: none;
 }
 
 .character-model canvas {
@@ -159,175 +165,170 @@
 
 .character-hover {
   position: absolute;
-  width: 280px;
-  height: 280px;
-  top: 50%;
+  width: 300px;
+  height: 300px;
+  top: 48%;
   left: 50%;
   z-index: 3;
   transform: translate(-50%, -50%);
   border-radius: 50%;
+  pointer-events: auto; /* Active for 3D interaction */
+  cursor: grab;
 }
 
+.character-hover:active {
+  cursor: grabbing;
+}
+
+/* ── Left Column: Intro & Name ── */
 .landing-intro {
   position: absolute;
-  z-index: 9;
-  top: 12%;
-  left: 0;
+  z-index: 15;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  opacity: 1;
+}
+
+.landing-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(94, 234, 212, 0.08);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #5eead4;
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(94, 234, 212, 0.12);
+  user-select: none;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+    box-shadow: 0 0 4px #10b981;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+    box-shadow: 0 0 12px #10b981;
+  }
 }
 
 .landing-intro h2 {
-  margin: 0;
+  margin: 0 0 6px 0;
   color: var(--accentColor);
-  font-size: 22px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 500;
   letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .landing-intro h1 {
   margin: 0;
-  letter-spacing: 2px;
-  font-size: 28px;
-  line-height: 28px;
-  font-weight: 500;
-  font-family: "Geist", sans-serif;
+  letter-spacing: -0.02em;
+  font-size: clamp(36px, 4.4vw, 62px);
+  line-height: 1.05;
+  font-weight: 700;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #ffffff;
 }
 
-/* .landing-intro h1 span {
-   font-weight: 200; 
-} */
+.landing-intro h1 span {
+  color: var(--accentColor);
+  text-shadow: 0 0 30px rgba(94, 234, 212, 0.35);
+}
 
+/* ── Right Column: Roles & Architecture ── */
 .landing-info {
   position: absolute;
-  right: 50%;
-  transform: translateX(50%);
-  bottom: 40px;
-  top: inherit;
-  z-index: 9;
+  z-index: 15;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  opacity: 1;
+}
+
+.landing-info-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #94a3b8;
+  margin-bottom: 14px;
+  user-select: none;
 }
 
 .landing-info h3 {
-  font-size: 22px;
+  font-size: 18px;
   letter-spacing: 2px;
-  font-weight: 300;
-  color: var(--accentColor);
-  margin: 0;
-}
-
-.landing-info h2 {
-  margin: 0;
-  margin-top: -20px;
-  margin-left: 20px;
-  font-family: "Geist", sans-serif;
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 40px;
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
+  font-weight: 500;
+  color: #94a3b8;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  margin: 0 0 6px 0;
 }
 
-.landing-h2-info-1 {
-  position: absolute;
-  top: 0;
-}
-
-h2.landing-info-h2 {
-  color: #14b8a6;
-  font-size: 42px;
-  width: 120%;
+.landing-info-h2 {
+  color: #ffffff;
+  font-size: clamp(30px, 3.6vw, 50px);
   margin: 0;
-  font-family: "Geist", sans-serif;
-  font-weight: 600;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
   position: relative;
-  margin-left: -5px;
+  min-height: 1.25em;
+  white-space: nowrap;
+}
+
+.landing-h2-1 {
+  position: relative;
+  color: #ffffff;
 }
 
 .landing-h2-2 {
   position: absolute;
   top: 0;
-}
-
-.landing-info-h2::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 120%;
-  z-index: 3;
-  background-image: linear-gradient(0deg,
-      var(--backgroundColor) 40%,
-      rgba(0, 0, 0, 0) 110%);
-  top: 0;
   left: 0;
+  color: var(--accentColor);
+  text-shadow: 0 0 25px rgba(94, 234, 212, 0.3);
 }
 
-@media screen and (min-width: 500px) {
+/* ── Desktop Layout & Alignment (min-width: 1025px) ── */
+@media screen and (min-width: 1025px) {
   .landing-circle2 {
     display: block;
   }
 
   .character-model {
-    z-index: 0;
-  }
-
-  .landing-info h3 {
-    font-size: 18px;
-  }
-
-  .landing-intro h2 {
-    font-size: 18px;
-  }
-
-  .landing-intro h1 {
-    font-size: 30px;
-    line-height: 30px;
-  }
-
-  .landing-info h2 {
-    font-size: 35px;
-    line-height: 40px;
-  }
-
-  h2.landing-info-h2 {
-    font-size: 38px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .character-model {
-    height: 80vh;
-  }
-
-  .landing-intro h2 {
-    font-size: 25px;
-  }
-
-  .landing-intro h1 {
-    font-size: 40px;
-    line-height: 35px;
-  }
-
-  .landing-info h3 {
-    font-size: 25px;
-  }
-
-  .landing-info h2 {
-    font-size: 45px;
-    line-height: 42px;
-  }
-
-  h2.landing-info-h2 {
-    font-size: 55px;
-  }
-}
-
-@media screen and (min-width: 1025px) {
-  .character-model {
     height: 100vh;
     bottom: 0;
-    z-index: 11;
+    z-index: 2;
     position: fixed;
+    pointer-events: none;
   }
 
   .character-model::after,
@@ -335,63 +336,147 @@ h2.landing-info-h2 {
     display: none;
   }
 
+  /* Left column: anchored to left, totally clear of center 3D model */
   .landing-intro {
     top: 50%;
-    left: auto;
-    right: 66%;
-    transform: translate(0%, -50%);
+    left: 20px;
+    right: auto;
+    transform: translateY(-50%);
+    max-width: 380px;
+    text-align: left;
   }
 
+  /* Right column: anchored to right, totally clear of center 3D model */
   .landing-info {
-    bottom: auto;
-    top: 51%;
-    z-index: inherit;
+    top: 50%;
+    right: 20px;
+    left: auto;
+    transform: translateY(-50%);
+    max-width: 380px;
     text-align: left;
-    transform: translate(0%, -50%);
-    right: auto;
-    left: 66%;
   }
 }
 
-@media screen and (min-width: 1200px) {
+/* ── Wide Desktop (min-width: 1400px) ── */
+@media screen and (min-width: 1400px) {
   .landing-intro {
-    top: 50%;
-    left: auto;
-    right: 70%;
-    transform: translate(0%, -50%);
+    left: 40px;
+    max-width: 440px;
   }
 
   .landing-info {
-    bottom: auto;
-    top: 51%;
-    z-index: inherit;
-    text-align: left;
-    transform: translate(0%, -50%);
-    right: auto;
-    left: 70%;
-  }
-}
-
-@media screen and (min-width: 1600px) {
-  .landing-intro h2 {
-    font-size: 35px;
+    right: 40px;
+    max-width: 440px;
   }
 
   .landing-intro h1 {
-    font-size: 60px;
-    line-height: 55px;
+    font-size: 58px;
+    line-height: 1.05;
+  }
+
+  .landing-info-h2 {
+    font-size: 50px;
+  }
+}
+
+/* ── Ultra-Wide Desktop (min-width: 1600px) ── */
+@media screen and (min-width: 1600px) {
+  .landing-intro {
+    left: 60px;
+    max-width: 480px;
+  }
+
+  .landing-info {
+    right: 60px;
+    max-width: 480px;
+  }
+
+  .landing-intro h1 {
+    font-size: 64px;
+  }
+
+  .landing-info-h2 {
+    font-size: 54px;
+  }
+}
+
+/* ── Tablet & Mobile (max-width: 1024px) ── */
+@media screen and (max-width: 1024px) {
+  .landing-section {
+    padding: 0;
+  }
+
+  .landing-bg-text {
+    top: 46%;
+    opacity: 0.7;
+  }
+
+  .character-model {
+    height: 75vh;
+    bottom: 30px;
+    z-index: 2;
+  }
+
+  .landing-intro {
+    top: 12%;
+    left: 0;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+  }
+
+  .landing-intro h2 {
+    font-size: 18px;
+  }
+
+  .landing-intro h1 {
+    font-size: 38px;
+    line-height: 1.1;
+  }
+
+  .landing-info {
+    bottom: 30px;
+    top: auto;
+    left: 0;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
   }
 
   .landing-info h3 {
-    font-size: 35px;
+    font-size: 16px;
   }
 
-  .landing-info h2 {
-    font-size: 65px;
-    line-height: 62px;
+  .landing-info-h2 {
+    font-size: 32px;
+  }
+}
+
+/* ── Small Mobile (max-width: 600px) ── */
+@media screen and (max-width: 600px) {
+  .landing-intro {
+    top: 10%;
   }
 
-  h2.landing-info-h2 {
-    font-size: 75px;
+  .landing-intro h1 {
+    font-size: 32px;
+  }
+
+  .landing-info {
+    bottom: 20px;
+  }
+
+  .landing-info-h2 {
+    font-size: 26px;
+  }
+
+  .bg-text-top {
+    font-size: 55px;
+  }
+
+  .bg-text-bottom {
+    font-size: 50px;
   }
 }

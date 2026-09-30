@@ -1,8 +1,8 @@
 {
-  "name": "supratim-portfolio",
+  "name": "darshak-chavda-portfolio",
   "private": true,
-  "version": "0.0.0",
-  "author": "Supratim Nath",
+  "version": "1.0.0",
+  "author": "Darshak Chavda",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

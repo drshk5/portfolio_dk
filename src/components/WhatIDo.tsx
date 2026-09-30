@@ -92,19 +92,21 @@ const WhatIDo = () => {
             <div className="what-corner"></div>
 
             <div className="what-content-in">
-              <h3>FRONTEND</h3>
-              <h4>Engaging User Interfaces</h4>
+              <h3>FRONTEND & 3D</h3>
+              <h4>Interactive Digital Experiences</h4>
               <p>
-                Frontend developer specialized in building modern, responsive, and beautiful web applications focusing on smooth user experiences.
+                Specialized in building modern, high-performance web applications using React 19, Next.js 15, and interactive 3D web scenes using Three.js and GSAP.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">React.js</div>
-                <div className="what-tags">HTML & CSS</div>
-                <div className="what-tags">JavaScript</div>
+                <div className="what-tags">React 19</div>
+                <div className="what-tags">Next.js 15</div>
+                <div className="what-tags">TypeScript</div>
+                <div className="what-tags">Three.js</div>
+                <div className="what-tags">React Three Fiber</div>
+                <div className="what-tags">GSAP & Lenis</div>
                 <div className="what-tags">Tailwind CSS</div>
-                <div className="what-tags">Bootstrap</div>
-                <div className="what-tags">UI/UX</div>
+                <div className="what-tags">Figma UI/UX</div>
               </div>
               <div className="what-arrow"></div>
             </div>
@@ -128,21 +130,21 @@ const WhatIDo = () => {
             </div>
             <div className="what-corner"></div>
             <div className="what-content-in">
-              <h3>BACKEND</h3>
-              <h4>Scalable Systems</h4>
+              <h3>BACKEND & APIS</h3>
+              <h4>Enterprise .NET Solutions</h4>
               <p>
-                I build the backend systems behind it: APIs, database architectures, and
-                real-time functionality using robust modern tech stacks.
+                Architect of resilient ASP.NET Core Web APIs, SQL Server database schemas, JWT authentication pipelines, and containerized Docker services.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
-                <div className="what-tags">Node.js</div>
-                <div className="what-tags">Python&amp;C++</div>
-                <div className="what-tags">REST APIs</div>
-                <div className="what-tags">MySQL</div>
-                <div className="what-tags">MongoDB</div>
+                <div className="what-tags">C# (.NET 8)</div>
+                <div className="what-tags">ASP.NET Core</div>
+                <div className="what-tags">Web API</div>
+                <div className="what-tags">EF Core 8</div>
+                <div className="what-tags">SQL Server (SSMS)</div>
+                <div className="what-tags">JWT Auth</div>
                 <div className="what-tags">Docker</div>
-                <div className="what-tags">Git &amp; GitHub</div>
+                <div className="what-tags">Clean Architecture</div>
               </div>
               <div className="what-arrow"></div>
             </div>

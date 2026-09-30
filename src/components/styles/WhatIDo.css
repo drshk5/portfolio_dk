@@ -17,12 +17,13 @@
   justify-content: center;
   position: relative;
   z-index: 9;
+  box-sizing: border-box;
 }
 .what-box h2 {
   font-size: calc(4vw + 25px);
   line-height: calc(4vw + 20px);
   font-weight: 600;
-  margin-right: 10%;
+  margin-right: 24%;
   margin-bottom: 100px;
 }
 
@@ -37,14 +38,15 @@
   height: 500px;
   margin-left: 200px;
   position: relative;
-  display: none;
+  display: flex;
 }
 .what-content {
   width: 450px;
   height: 33%;
   min-height: 50%;
   transition: 0.5s;
-  /* border: 0.5px dashed rgba(255, 255, 255, 0.3); */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
   position: relative;
   padding: 50px;
   box-sizing: border-box;
@@ -233,20 +235,34 @@
 }
 .what-tags {
   font-size: 13px;
-  font-weight: 400;
-  padding: 2px 7px;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid #ffffff50;
+  font-weight: 500;
+  padding: 4px 10px;
+  background-color: rgba(94, 234, 212, 0.08);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  color: #e2e8f0;
   border-radius: 30px;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+}
+.what-tags:hover {
+  background-color: rgba(94, 234, 212, 0.18);
+  border-color: #5eead4;
+  color: #5eead4;
+  transform: translateY(-1px);
 }
 @media only screen and (max-width: 1600px) {
   .what-box h2 {
-    margin-right: 18%;
+    margin-right: 30%;
   }
 }
 @media only screen and (max-width: 1400px) {
   .what-box h2 {
-    margin-right: 20%;
+    margin-right: 34%;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .what-box h2 {
+    margin-right: 38%;
   }
   .what-box-in {
     height: 400px;
@@ -288,6 +304,9 @@
     height: auto;
     padding: 50px 0px;
     padding-bottom: 50px;
+  }
+  .what-box h2 {
+    margin-right: 34%;
   }
   .what-box-in {
     height: 500px;

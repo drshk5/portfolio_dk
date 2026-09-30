@@ -1,31 +1,29 @@
 import {
   FaGithub,
   FaLinkedinIn,
-  FaInstagram,
 } from "react-icons/fa6";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
 import { useEffect } from "react";
 import HoverLinks from "./HoverLinks";
 
-const RESUME_URL =
-  "https://drive.google.com/file/d/1zi0rkau3Mln6Mp403kS0huQyQhYvc97R/view?usp=sharing";
-
 const SocialIcons = () => {
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
+    if (!social) return;
 
     const elements = Array.from(social.querySelectorAll("span")) as HTMLElement[];
-    const rafIds: number[] = [];
-    const handlers: Array<(e: MouseEvent) => void> = [];
+    const cleanups: Array<() => void> = [];
 
     elements.forEach((elem) => {
       const link = elem.querySelector("a") as HTMLElement;
+      if (!link) return;
       const rect = elem.getBoundingClientRect();
       let mouseX = rect.width / 2;
       let mouseY = rect.height / 2;
       let currentX = 0;
       let currentY = 0;
+      let rafId = 0;
 
       const updatePosition = () => {
         currentX += (mouseX - currentX) * 0.1;
@@ -34,8 +32,7 @@ const SocialIcons = () => {
         link.style.setProperty("--siLeft", `${currentX}px`);
         link.style.setProperty("--siTop", `${currentY}px`);
 
-        const id = requestAnimationFrame(updatePosition);
-        rafIds.push(id);
+        rafId = requestAnimationFrame(updatePosition);
       };
 
       const onMouseMove = (e: MouseEvent) => {
@@ -51,15 +48,17 @@ const SocialIcons = () => {
         }
       };
 
-      handlers.push(onMouseMove);
       document.addEventListener("mousemove", onMouseMove);
+      rafId = requestAnimationFrame(updatePosition);
 
-      updatePosition();
+      cleanups.push(() => {
+        document.removeEventListener("mousemove", onMouseMove);
+        cancelAnimationFrame(rafId);
+      });
     });
 
     return () => {
-      handlers.forEach((h) => document.removeEventListener("mousemove", h));
-      rafIds.forEach((id) => cancelAnimationFrame(id));
+      cleanups.forEach((cleanup) => cleanup());
     };
   }, []);
 
@@ -68,44 +67,33 @@ const SocialIcons = () => {
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
           <a
-            href="https://github.com/supratim-nath"
+            href="https://github.com/drshk5"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open GitHub profile"
-            title="GitHub"
+            title="GitHub (drshk5)"
           >
             <FaGithub />
           </a>
         </span>
         <span>
           <a
-            href="https://www.linkedin.com/in/supratim-nath10"
+            href="https://www.linkedin.com/in/darshak-chavda-439940239/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open LinkedIn profile"
-            title="LinkedIn"
+            title="LinkedIn (Darshak Chavda)"
           >
             <FaLinkedinIn />
-          </a>
-        </span>
-        <span>
-          <a
-            href="https://www.instagram.com/__.supratim._._?igsh=ZWNrZDF2ZXpuMTFu"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Instagram profile"
-            title="Instagram"
-          >
-            <FaInstagram />
           </a>
         </span>
       </div>
       <a
         className="resume-button"
-        href={RESUME_URL}
+        href="/resume.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Open Supratim Nath resume in Google Drive"
+        aria-label="Open Darshak Chavda resume"
         title="Open resume"
         data-cursor="disable"
       >

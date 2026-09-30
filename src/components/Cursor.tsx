@@ -1,27 +1,38 @@
 import { useEffect, useRef } from "react";
 import "./styles/Cursor.css";
-import gsap from "gsap";
 
 const Cursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    // Disable custom cursor on touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
     let hover = false;
-    const cursor = cursorRef.current!;
-    const mousePos = { x: 0, y: 0 };
-    const cursorPos = { x: 0, y: 0 };
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    const mousePos = { x: -100, y: -100 };
+    const cursorPos = { x: -100, y: -100 };
+    let isVisible = false;
+
     const onMouseMove = (e: MouseEvent) => {
       mousePos.x = e.clientX;
       mousePos.y = e.clientY;
+      if (!isVisible) {
+        isVisible = true;
+        cursor.style.opacity = "1";
+      }
     };
     document.addEventListener("mousemove", onMouseMove);
 
     let rafId: number;
     const loop = () => {
       if (!hover) {
-        const delay = 6;
+        const delay = 5;
         cursorPos.x += (mousePos.x - cursorPos.x) / delay;
         cursorPos.y += (mousePos.y - cursorPos.y) / delay;
-        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
+        cursor.style.transform = `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0)`;
       }
       rafId = requestAnimationFrame(loop);
     };
@@ -36,7 +47,7 @@ const Cursor = () => {
 
         if (element.dataset.cursor === "icons") {
           cursor.classList.add("cursor-icons");
-          gsap.to(cursor, { x: rect.left, y: rect.top, duration: 0.1 });
+          cursor.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
           cursor.style.setProperty("--cursorH", `${rect.height}px`);
           hover = true;
         }

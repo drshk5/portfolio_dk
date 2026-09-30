@@ -59,16 +59,16 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          SN
+          DC
         </a>
         <a
-          href="https://www.linkedin.com/in/supratim-nath10"
+          href="mailto:darshak007chavda@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
           target="_blank"
           rel="noreferrer"
         >
-          linkedin.com/in/supratim-nath10
+          darshak007chavda@gmail.com
         </a>
         <ul>
           <li>

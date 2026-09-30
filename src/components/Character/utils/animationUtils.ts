@@ -62,14 +62,14 @@ const setAnimations = (gltf: GLTF) => {
         isHovering = true;
         eyeBrowUpAction.reset();
         eyeBrowUpAction.enabled = true;
-        eyeBrowUpAction.setEffectiveWeight(4);
-        eyeBrowUpAction.fadeIn(0.5).play();
+        eyeBrowUpAction.setEffectiveWeight(1.0);
+        eyeBrowUpAction.fadeIn(0.2).play();
       }
     };
     const onLeaveFace = () => {
       if (eyeBrowUpAction && isHovering) {
         isHovering = false;
-        eyeBrowUpAction.fadeOut(0.6);
+        eyeBrowUpAction.fadeOut(0.3);
       }
     };
     if (!hoverDiv) return;

@@ -58,28 +58,67 @@
   gap: 50px;
 }
 
-.career-info h3 {
-  font-size: 48px;
-  margin: 0;
-  font-weight: 500;
-  line-height: 45px;
+.career-role {
+  display: flex;
+  flex-direction: column;
 }
 
 .career-info h4 {
-  font-size: 33px;
-  line-height: 30px;
-  letter-spacing: 0.8px;
-  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: #fff;
   margin: 0;
 }
 
 .career-info h5 {
   font-weight: 400;
-  letter-spacing: 0.7px;
-  font-size: 20px;
+  letter-spacing: 0.5px;
+  font-size: 15px;
   text-transform: capitalize;
-  margin: 10px 0px;
+  margin: 6px 0 12px;
   color: var(--accentColor);
+}
+
+.career-skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.career-skills-tags span {
+  font-size: 11px;
+  padding: 3px 9px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  color: #94a3b8;
+}
+
+.career-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.career-pill {
+  padding: 4px 12px;
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5eead4;
+  white-space: nowrap;
+}
+
+.career-location {
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
 }
 
 .career-timeline {

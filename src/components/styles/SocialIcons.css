@@ -19,11 +19,15 @@
 }
 .social-icons:hover {
   transition: 0.3s;
-  color: var(--backgroundColor);
+}
+.social-icons a {
+  color: #eae5ec;
+  transition: color 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 .social-icons a:hover {
-  color: var(--backgroundColor);
-  /* transform: scale(1.2); */
+  color: var(--accentColor);
+  filter: drop-shadow(0 0 10px rgba(94, 234, 212, 0.7));
+  transform: translate(-50%, -50%) scale(1.15);
 }
 .social-icons span {
   width: 50px;
@@ -82,15 +86,7 @@
   display: flex;
   align-items: center;
 }
-.check-line {
-  position: fixed;
-  top: 655px;
-  left: 0;
-  height: 1px;
-  background-color: #ffffff;
-  width: 100%;
-  z-index: 99999;
-}
+
 @media only screen and (min-width: 900px) {
   .social-icons {
     display: flex;

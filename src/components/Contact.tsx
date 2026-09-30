@@ -1,90 +1,147 @@
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import { useState } from "react";
+import { MdArrowOutward, MdCopyright, MdContentCopy, MdCheck, MdMailOutline, MdPhone } from "react-icons/md";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import "./styles/Contact.css";
 
 const Contact = () => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("darshak007chavda@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
-        <h3>Contact</h3>
+        <div className="contact-header">
+          <h3>
+            Let's <span>Connect</span>
+          </h3>
+          <p className="contact-subhead">
+            Open for software developer roles, freelance .NET web systems, and innovative engineering collaborations.
+          </p>
+        </div>
+
         <div className="contact-flex">
-          <div className="contact-box">
-            <h4>Connect</h4>
-            <p>
+          {/* Card 1: Direct Inquiries */}
+          <div className="contact-card">
+            <div className="contact-card-header">
+              <span className="contact-badge">Direct Line</span>
+              <h4>Get in Touch</h4>
+            </div>
+            
+            <div className="contact-item">
+              <span className="contact-item-label">
+                <MdMailOutline /> Primary Email
+              </span>
+              <div className="contact-copy-row">
+                <a
+                  href="mailto:darshak007chavda@gmail.com"
+                  className="contact-value"
+                  data-cursor="disable"
+                >
+                  darshak007chavda@gmail.com
+                </a>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className={`copy-btn ${copied ? "copied" : ""}`}
+                  aria-label="Copy email address"
+                  data-cursor="disable"
+                >
+                  {copied ? <MdCheck /> : <MdContentCopy />}
+                  <span>{copied ? "Copied!" : "Copy"}</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="contact-item">
+              <span className="contact-item-label">
+                <MdPhone /> Direct Phone
+              </span>
               <a
-                href="https://www.linkedin.com/in/supratim-nath10"
+                href="tel:+917203075804"
+                className="contact-value phone-val"
+                data-cursor="disable"
+              >
+                +91 7203075804 <MdArrowOutward />
+              </a>
+            </div>
+
+            <div className="contact-status-box">
+              <span className="contact-status-dot"></span>
+              <span>Available for immediate joining & freelance</span>
+            </div>
+          </div>
+
+          {/* Card 2: Professional Profiles */}
+          <div className="contact-card">
+            <div className="contact-card-header">
+              <span className="contact-badge">Online Presence</span>
+              <h4>Profiles & Code</h4>
+            </div>
+
+            <div className="contact-social-links">
+              <a
+                href="https://github.com/drshk5"
                 target="_blank"
                 rel="noreferrer"
                 data-cursor="disable"
+                className="contact-social-tile"
               >
-                LinkedIn — supratim-nath10
+                <div className="tile-icon"><FaGithub /></div>
+                <div className="tile-text">
+                  <span className="tile-title">GitHub</span>
+                  <span className="tile-desc">@drshk5 • Repositories & code</span>
+                </div>
+                <MdArrowOutward className="tile-arrow" />
               </a>
-            </p>
-            <h4>Education</h4>
-            <p>
-              B.Tech in Computer Science and Engineering, KIIT University | CGPA: 7.9
-            </p>
-            <p>
-              AISSCE, Durgapur Public School | Percentage: 85%
-            </p>
-            <p>
-              ICSE, St. Xavier's School | Percentage: 91.2%
-            </p>
+
+              <a
+                href="https://www.linkedin.com/in/darshak-chavda-439940239/"
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="disable"
+                className="contact-social-tile"
+              >
+                <div className="tile-icon"><FaLinkedinIn /></div>
+                <div className="tile-text">
+                  <span className="tile-title">LinkedIn</span>
+                  <span className="tile-desc">Professional network & resume</span>
+                </div>
+                <MdArrowOutward className="tile-arrow" />
+              </a>
+            </div>
+
+            <div className="contact-location-info">
+              <span>Location:</span> Gandhinagar, Gujarat, India
+            </div>
           </div>
-          <div className="contact-box">
-            <h4>Social</h4>
-            <a
-              href="https://github.com/supratim-nath"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              GitHub <MdArrowOutward />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/supratim-nath10"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              LinkedIn <MdArrowOutward />
-            </a>
-            <a
-              href="https://www.instagram.com/__.supratim._._?igsh=ZWNrZDF2ZXpuMTFu"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Instagram <MdArrowOutward />
-            </a>
-            <a
-              href="mailto:supratim0610@gmail.com"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Email <MdArrowOutward />
-            </a>
-            <a
-              href="tel:+919749913651"
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="disable"
-              className="contact-social"
-            >
-              Phone <MdArrowOutward />
-            </a>
-          </div>
-          <div className="contact-box">
-            <h2>
-              Designed and Developed <br /> by <span>Supratim Nath</span>
-            </h2>
-            <h5>
-              <MdCopyright /> 2026
-            </h5>
+
+          {/* Card 3: Colophon & Closing */}
+          <div className="contact-card credit-card">
+            <div className="credit-content">
+              <h2>
+                Crafted with care <br /> by <span>Darshak Chavda</span>
+              </h2>
+              <p className="credit-desc">
+                Built with React 19, TypeScript, Three.js, and GSAP. Designed for enterprise precision and cinematic motion.
+              </p>
+              <a
+                href="mailto:darshak007chavda@gmail.com?subject=Project%20Inquiry%20via%20Portfolio"
+                className="contact-cta-btn"
+                data-cursor="disable"
+              >
+                Send Quick Message <MdArrowOutward />
+              </a>
+            </div>
+            <div className="credit-footer">
+              <h5>
+                <MdCopyright /> {new Date().getFullYear()} Darshak Chavda. All rights reserved.
+              </h5>
+            </div>
           </div>
         </div>
       </div>
