@@ -64,6 +64,30 @@ const Work = () => {
     goToSlide(newIndex);
   }, [currentIndex, goToSlide]);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 45;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart === null || touchEnd === null) return;
+    const distance = touchStart - touchEnd;
+    if (distance > minSwipeDistance) {
+      goToNext();
+    } else if (distance < -minSwipeDistance) {
+      goToPrev();
+    }
+  };
+
   return (
     <div className="work-section" id="work">
       <div className="work-container section-container">
@@ -102,7 +126,12 @@ const Work = () => {
           </div>
         </div>
 
-        <div className="carousel-wrapper">
+        <div
+          className="carousel-wrapper"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Slides */}
           <div className="carousel-track-container">
             <div

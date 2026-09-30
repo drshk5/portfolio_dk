@@ -29,11 +29,22 @@ const Navbar = () => {
     const handlers: ((e: Event) => void)[] = [];
     links.forEach((elem) => {
       const handler = (e: Event) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          const target = e.currentTarget as HTMLAnchorElement;
-          const section = target.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
+        e.preventDefault();
+        const target = e.currentTarget as HTMLAnchorElement;
+        const section = target.getAttribute("data-href");
+        if (!section) return;
+
+        if (window.innerWidth > 1024 && smoother) {
+          try {
+            smoother.scrollTo(section, true, "top top");
+            return;
+          } catch {
+            /* fallback below */
+          }
+        }
+        const targetEl = document.querySelector(section);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: "smooth" });
         }
       };
       handlers.push(handler);

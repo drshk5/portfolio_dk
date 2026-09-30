@@ -7,88 +7,107 @@
   opacity: 1;
   height: auto;
   width: var(--cWidth);
+  max-width: var(--cMaxWidth);
   margin: auto;
+  padding: 60px 0 40px;
+  box-sizing: border-box;
 }
+
 .about-me {
-  padding: 50px 0px;
-  padding-bottom: 0;
+  padding: 20px 0px;
   width: 620px;
-  max-width: calc(100% - 15px);
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 .about-me h3 {
-  font-size: 20px;
+  font-size: clamp(16px, 3.5vw, 20px);
   text-transform: uppercase;
-  letter-spacing: 6px;
-  font-weight: 500;
+  letter-spacing: 5px;
+  font-weight: 600;
   color: var(--accentColor);
   margin-bottom: 16px;
 }
 
 .about-me p, .about-me p div {
-  font-size: 20px;
+  font-size: clamp(15px, 3.8vw, 19px);
   font-weight: 400;
-  line-height: 32px;
-  letter-spacing: 0.3px;
-  color: #e2e8f0 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+  color: #e2e8f0;
 }
 
 .about-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 28px;
   width: 100%;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 380px) {
+  .about-stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .about-stat-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 16px 20px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 4px;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .about-stat-card:hover {
   border-color: rgba(94, 234, 212, 0.4);
   background: rgba(94, 234, 212, 0.06);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(94, 234, 212, 0.1);
 }
 
 .about-stat-num {
-  font-size: 20px;
+  font-size: clamp(17px, 4vw, 20px);
   font-weight: 700;
   color: #5eead4;
   letter-spacing: 0.5px;
 }
 
 .about-stat-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   color: #94a3b8;
+  line-height: 1.35;
 }
 
 @media only screen and (min-width: 600px) {
   .about-section {
+    padding: 80px 0 50px;
     justify-content: center;
   }
+  .about-stat-card {
+    padding: 16px 20px;
+  }
 }
+
 @media only screen and (min-width: 768px) {
   .about-me {
     width: 600px;
-    max-width: calc(100% - 70px);
+    max-width: 100%;
     transform: translateY(0%);
   }
   .about-section {
     opacity: 1;
   }
 }
+
 @media only screen and (min-width: 1025px) {
   .about-section {
     width: var(--cWidth);
@@ -103,10 +122,11 @@
     width: 48%;
   }
   .about-me p {
-    font-size: 1.25vw;
-    line-height: 1.9vw;
+    font-size: 1.2vw;
+    line-height: 1.85vw;
   }
 }
+
 @media only screen and (min-width: 1950px) {
   .about-me p {
     font-size: 1.4rem;

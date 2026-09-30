@@ -9,6 +9,8 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import { setAllTimeline } from "./utils/GsapScroll";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import TechStackMobile from "./TechStackMobile";
 
@@ -20,14 +22,23 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    const resizeHandler = () => {
+    const initScrollFX = () => {
       setSplitText();
+      setAllTimeline();
+      ScrollTrigger.refresh();
       setIsDesktopView(window.innerWidth > 1024);
     };
-    // initialize once
-    resizeHandler();
+
+    // Initialize with slight delay for DOM rendering
+    const timer = setTimeout(initScrollFX, 150);
+
+    const resizeHandler = () => {
+      initScrollFX();
+    };
+
     window.addEventListener("resize", resizeHandler);
     return () => {
+      clearTimeout(timer);
       window.removeEventListener("resize", resizeHandler);
     };
     // run only once on mount
@@ -38,11 +49,11 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       <Cursor />
       <Navbar />
       <SocialIcons />
-      {isDesktopView && children}
+      {children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <div className="container-main">
-            <Landing>{!isDesktopView && children}</Landing>
+            <Landing />
             <About />
             <WhatIDo />
             <Career />

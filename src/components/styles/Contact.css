@@ -118,7 +118,7 @@
 }
 
 .contact-value {
-  font-size: 14px;
+  font-size: clamp(12.5px, 3.2vw, 14px);
   color: #e2e8f0;
   text-decoration: none;
   font-family: monospace;
@@ -126,6 +126,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: color 0.25s ease;
+  min-width: 0;
+  flex: 1;
 }
 
 .contact-value:hover {
@@ -332,10 +334,18 @@
 
 @media only screen and (max-width: 768px) {
   .contact-section {
-    padding: 60px 0 40px;
+    padding: 50px 0 30px;
+  }
+
+  .contact-header {
+    margin-bottom: 28px;
   }
 
   .contact-header h3 {
-    font-size: 42px;
+    font-size: clamp(34px, 8.5vw, 44px);
+  }
+
+  .contact-card {
+    padding: 22px 18px;
   }
 }

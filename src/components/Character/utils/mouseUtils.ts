@@ -36,27 +36,47 @@ export const handleTouchEnd = (
 
 export const handleHeadRotation = (
   headBone: THREE.Object3D,
+  neckBone: THREE.Object3D | null,
   mouseX: number,
   mouseY: number,
   _interpolationX: number,
   _interpolationY: number,
-  lerp: (x: number, y: number, t: number) => number
+  lerp: (x: number, y: number, t: number) => number,
+  time?: number
 ) => {
   if (!headBone) return;
-  if (window.scrollY < 200) {
-    // Smooth, natural bounds for head tracking (yaw and pitch)
-    const maxYaw = 0.42; // ~24 degrees horizontal
-    const maxPitch = 0.28; // ~16 degrees vertical
 
-    const targetYaw = THREE.MathUtils.clamp(mouseX * maxYaw, -maxYaw, maxYaw);
-    const targetPitch = THREE.MathUtils.clamp(-mouseY * maxPitch, -maxPitch, maxPitch * 0.8);
+  if (window.scrollY < 300) {
+    // Rest angles from Blender GLTF:
+    // head (spine.006): x = -0.326 rad (~ -18.7 deg), y = 0, z = 0
+    // neck (spine.005): x = +0.454 rad (~ +26.0 deg), y = 0, z = 0
+    const baseHeadPitch = -0.326;
+    const baseNeckPitch = 0.454;
 
-    headBone.rotation.y = lerp(headBone.rotation.y, targetYaw, 0.08);
-    headBone.rotation.x = lerp(headBone.rotation.x, targetPitch, 0.08);
-  } else {
-    if (window.innerWidth > 1024) {
-      headBone.rotation.x = lerp(headBone.rotation.x, -0.25, 0.04);
-      headBone.rotation.y = lerp(headBone.rotation.y, -0.2, 0.04);
+    const maxYaw = 0.55; // ~31 degrees horizontal range
+    const maxPitch = 0.32; // ~18 degrees vertical range
+
+    // Subtle natural breathing / idle sway when cursor is still
+    const idleYaw = typeof time === "number" ? Math.sin(time * 1.5) * 0.025 : 0;
+    const idlePitch = typeof time === "number" ? Math.cos(time * 2.0) * 0.015 : 0;
+
+    const targetYaw = THREE.MathUtils.clamp(mouseX * maxYaw, -maxYaw, maxYaw) + idleYaw;
+    const targetPitch = THREE.MathUtils.clamp(-mouseY * maxPitch, -maxPitch, maxPitch * 0.8) + idlePitch;
+
+    // Head takes 70% of motion
+    headBone.rotation.y = lerp(headBone.rotation.y, targetYaw * 0.7, 0.08);
+    headBone.rotation.x = lerp(headBone.rotation.x, baseHeadPitch + targetPitch * 0.7, 0.08);
+
+    // Neck takes 30% of motion for lifelike looking motion
+    if (neckBone) {
+      neckBone.rotation.y = lerp(neckBone.rotation.y, targetYaw * 0.3, 0.08);
+      neckBone.rotation.x = lerp(neckBone.rotation.x, baseNeckPitch + targetPitch * 0.3, 0.08);
     }
+  } else {
+    // Turn head towards computer monitor / workstation as user scrolls into the site
+    headBone.rotation.x = lerp(headBone.rotation.x, -0.25, 0.04);
+    headBone.rotation.y = lerp(headBone.rotation.y, -0.2, 0.04);
   }
 };
+
+

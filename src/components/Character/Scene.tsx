@@ -56,6 +56,7 @@ const Scene = () => {
     camera.updateProjectionMatrix();
 
     let headBone: THREE.Object3D | null = null;
+    let neckBone: THREE.Object3D | null = null;
     let screenLight: THREE.Mesh | null = null;
     let mixer: THREE.AnimationMixer | null = null;
 
@@ -82,7 +83,6 @@ const Scene = () => {
     };
 
     let hoverCleanup: (() => void) | null = null;
-    let activeTouchMoveHandler: ((e: TouchEvent) => void) | null = null;
 
     loadCharacter()
       .then((gltf) => {
@@ -106,10 +106,14 @@ const Scene = () => {
           setChar(loadedCharacter);
           scene.add(loadedCharacter);
 
-          // Correct bone name in Blender GLTF is spine.006
+          // Correct bone names in Blender GLTF: spine.006 (head), spine.005 (neck)
           headBone =
             loadedCharacter.getObjectByName("spine.006") ||
             loadedCharacter.getObjectByName("spine006") ||
+            null;
+          neckBone =
+            loadedCharacter.getObjectByName("spine.005") ||
+            loadedCharacter.getObjectByName("spine005") ||
             null;
 
           screenLight =
@@ -142,16 +146,10 @@ const Scene = () => {
       handleMouseMove(event, (x, y) => (mouse = { x, y }));
     };
 
-    let debounce: number | undefined;
-    const onTouchStart = (event: TouchEvent) => {
-      const element = event.target as HTMLElement;
-      debounce = window.setTimeout(() => {
-        if (!element || isCancelled) return;
-        const touchMoveHandler = (e: TouchEvent) =>
-          handleTouchMove(e, (x, y) => (mouse = { x, y }));
-        activeTouchMoveHandler = touchMoveHandler;
-        element.addEventListener("touchmove", touchMoveHandler as EventListener);
-      }, 200);
+    const onTouch = (event: TouchEvent) => {
+      if (event.touches && event.touches.length > 0) {
+        handleTouchMove(event, (x, y) => (mouse = { x, y }));
+      }
     };
 
     const onTouchEnd = () => {
@@ -161,32 +159,52 @@ const Scene = () => {
       });
     };
 
-    document.addEventListener("mousemove", onMouseMove);
-    const landingDiv = document.getElementById("landingDiv");
-    if (landingDiv) {
-      landingDiv.addEventListener("touchstart", onTouchStart);
-      landingDiv.addEventListener("touchend", onTouchEnd);
+    const onDeviceOrientation = (event: DeviceOrientationEvent) => {
+      if (event.gamma !== null && event.beta !== null) {
+        const tiltX = THREE.MathUtils.clamp(event.gamma / 25, -1, 1);
+        const tiltY = THREE.MathUtils.clamp((event.beta - 45) / 25, -1, 1);
+        mouse = { x: tiltX, y: tiltY };
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    window.addEventListener("touchmove", onTouch, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    if (typeof window !== "undefined" && "DeviceOrientationEvent" in window) {
+      window.addEventListener("deviceorientation", onDeviceOrientation, { passive: true });
     }
 
     const animate = () => {
       if (isCancelled) return;
       animationFrameId = requestAnimationFrame(animate);
 
+      const delta = clock.getDelta();
+      const elapsedTime = clock.getElapsedTime();
+
+      // 1. Update base skeletal animations (typing, blinking, etc.) first
+      if (mixer) {
+        mixer.update(delta);
+      }
+
+      // 2. Apply head & neck procedural cursor tracking AFTER mixer.update
+      // This prevents the animation mixer keyframes from overwriting cursor tracking
       if (headBone) {
         handleHeadRotation(
           headBone,
+          neckBone,
           mouse.x,
           mouse.y,
           interpolation.x,
           interpolation.y,
-          THREE.MathUtils.lerp
+          THREE.MathUtils.lerp,
+          elapsedTime
         );
         light.setPointLight(screenLight);
       }
-      const delta = clock.getDelta();
-      if (mixer) {
-        mixer.update(delta);
-      }
+
+      // 3. Render frame
       renderer.render(scene, camera);
     };
     animationFrameId = requestAnimationFrame(animate);
@@ -194,7 +212,6 @@ const Scene = () => {
     return () => {
       isCancelled = true;
       cancelAnimationFrame(animationFrameId);
-      clearTimeout(debounce);
       clearTimeout(loadingFallback);
       progress.cancel();
       scene.clear();
@@ -205,14 +222,12 @@ const Scene = () => {
         canvasElement.removeChild(renderer.domElement);
       }
 
-      document.removeEventListener("mousemove", onMouseMove);
-      if (landingDiv) {
-        landingDiv.removeEventListener("touchstart", onTouchStart);
-        landingDiv.removeEventListener("touchend", onTouchEnd);
-        if (activeTouchMoveHandler) {
-          landingDiv.removeEventListener("touchmove", activeTouchMoveHandler as EventListener);
-        }
-      }
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("deviceorientation", onDeviceOrientation);
+
       if (hoverCleanup) hoverCleanup();
     };
   }, [setLoading]);
